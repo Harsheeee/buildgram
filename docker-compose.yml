@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: buildgram_db
+    environment:
+      POSTGRES_USER: buildgram_user
+      POSTGRES_PASSWORD: buildgram_password
+      POSTGRES_DB: buildgram
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U buildgram_user -d buildgram"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: buildgram_backend
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=buildgram_user
+      - DB_PASSWORD=buildgram_password
+      - DB_NAME=buildgram
+      - DB_SSLMODE=disable
+      - SERVER_PORT=8080
+      - JWT_SECRET=buildgram-super-secret-key-change-in-production
+      - UPLOAD_DIR=./uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - backend_uploads:/app/uploads
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: buildgram_frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - BACKEND_URL=http://backend:8080
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  db_data:
+  backend_uploads:

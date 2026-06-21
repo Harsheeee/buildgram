@@ -1,0 +1,44 @@
+# Environment variables
+.env
+backend/.env
+frontend/.env
+*.env
+
+# Dependencies
+frontend/node_modules/
+node_modules/
+
+# Frontend Build output
+frontend/dist/
+frontend/build/
+dist/
+build/
+
+# Go Build output
+backend/main
+backend/api
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Uploads / user generated content
+backend/uploads/
+uploads/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

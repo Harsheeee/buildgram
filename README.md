@@ -10,7 +10,7 @@ BuildGram is a full-stack application featuring a Go-based backend (using Gin) a
   - [Node.js](https://nodejs.org/) (18.x or later)
   - [PostgreSQL](https://www.postgresql.org/)
 
-## 🚀 Build and Run Instructions (Docker)
+## Build and Run Instructions (Docker)
 
 The entire application stack (Database, Backend, and Frontend) is fully containerized. You can build and start the app without needing to configure databases or install local runtimes!
 
